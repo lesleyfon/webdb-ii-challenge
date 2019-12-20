@@ -12,9 +12,13 @@ function postCar(car){
 function deleteCar(id){
     return db('cars').where({id: id}).del();
 }
+function updateCar(id, car){
+    return db('cars').where({id: id}).update(car)
+}
 module.exports = {
     fetchCars,
     fetchCarAt,
     postCar,
-    deleteCar
+    deleteCar,
+    updateCar
 }

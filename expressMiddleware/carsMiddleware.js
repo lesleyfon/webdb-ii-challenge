@@ -7,7 +7,7 @@ const validateId = () => async (req, res, next)=>{
         })
     }
     const car = await db.fetchCarAt(id).first();
-    req.car = car;
+    req.validatedCarId = car;
     try {
         //if we cant find car at a particular id we return an error message
         !car 
@@ -37,7 +37,7 @@ const validateCarBody = () => async (req, res, next)=>{
         })
     }
     try {
-        req.car = { VIN, make, model, mileage };
+        req.validatedCarBody = { VIN, make, model, mileage };
         next();
 
     } catch (error) {

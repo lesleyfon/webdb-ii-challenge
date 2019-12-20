@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
     })
 });
 router.get('/:id', validateId(), (req, res, next) => {
-    const car = req.car
+    const car = req.validatedCarId
     res.status(200).json({
         message: "successful",
         car: car
@@ -19,7 +19,7 @@ router.get('/:id', validateId(), (req, res, next) => {
 });
 
 router.post('/', validateCarBody(), async (req, res, next)=> {
-    const car = req.car;
+    const car = req.validatedCarBody;
    try {
     res.status(200).json({
         message: 'Post successful',
@@ -35,7 +35,7 @@ router.post('/', validateCarBody(), async (req, res, next)=> {
 }); 
 
 router.delete('/:id', validateId(), async (req, res, next) => {
-    const carId = req.car.id
+    const carId = req.validatedCarId.id
     try {
 
         res.status(201).json({
@@ -47,6 +47,20 @@ router.delete('/:id', validateId(), async (req, res, next) => {
         res.status(400).json({
             error: error,
         })
+    }
+});
+
+router.put('/:id', validateId(), validateCarBody(), async (req, res, next) => {
+    const carUpdate = req.validatedCarBody;
+    const carId = req.validatedCarId.id;
+    try {
+        res.status(200).json({
+            message: 'Update successful',
+            rowsAffected: await db.updateCar(carId, carUpdate)
+        })
+    } catch (error) {
+
+       res.status(500).json({ error: error}) 
     }
 })
 module.exports = router;
